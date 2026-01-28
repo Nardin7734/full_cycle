@@ -1,0 +1,37 @@
+directive @goField( forceResolver: Boolean name: String ) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+type Category{
+  id: ID!
+  name: String!
+  description: String!
+  courses: [Course!]! @goField(forceResolver: true)
+}
+
+type Course{
+  id:ID!
+  name: String!
+  description: String
+  category: Category!
+}
+
+input NewCategory{
+  name: String!
+  description: String
+  categoryId: ID!
+}
+
+input NewCourse{
+  name: String!
+  description: String
+  categoryId: ID!
+}
+
+type Query{
+  categories: [Category!]
+  courses: [Course!]
+}
+
+type Mutation{
+  createCategory(input: NewCategory!): Category!
+  createCourse(input: NewCourse!): Course!
+}
